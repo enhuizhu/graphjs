@@ -1,3 +1,5 @@
+var _ = require("underscore");
+
 var graph = function() {	
 }
 
@@ -5,7 +7,7 @@ graph.prototype.adjacency = {};
 
 graph.prototype.marked = {};
 
-graph.prototype.addEdge = function(v0, v1) {
+graph.prototype.addEdge = function(v0, v1, direction) {
     if (!this.adjacency[v0]) {
     	this.adjacency[v0] = [];
     };
@@ -15,7 +17,10 @@ graph.prototype.addEdge = function(v0, v1) {
     };
 
     this.adjacency[v0].push(v1);
-    this.adjacency[v1].push(v0);
+    
+    if (direction) {
+	    this.adjacency[v1].push(v0);
+    };
 }
 
 graph.prototype.dfs = function(v, marked) {
@@ -40,6 +45,8 @@ graph.prototype.dfs = function(v, marked) {
 }
 
 graph.prototype.getPaths = function(v0, v1, paths, currentPath) {
+	var that = this;
+	
 	if (!paths) {
 		paths = [];
 	};
@@ -48,7 +55,9 @@ graph.prototype.getPaths = function(v0, v1, paths, currentPath) {
 		currentPath = [];
 	};
     
-	currentPath.push(v0);
+	var newPath = _.clone(currentPath);
+	
+	newPath.push(v0);
 
 	if (this.adjacency[v0] === undefined) {
 		return [];
@@ -56,10 +65,10 @@ graph.prototype.getPaths = function(v0, v1, paths, currentPath) {
 
 	this.adjacency[v0].forEach(function(d) {
 		if (d === v1) {
-			currentPath.push[v1];
-			paths.push[currentPath];
+			newPath.push(v1);
+			paths.push(newPath);
 		}else{
-			currentPath.concat(that.getPaths(d, v1, paths, currentPath))
+			that.getPaths(d, v1, paths, newPath);
 		}
 	});
 
