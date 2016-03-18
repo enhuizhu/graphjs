@@ -43,12 +43,10 @@ graph.prototype.dfs = function(v, marked) {
 	};
 
 	marked[v] = true;
-	console.info("v is:",v);
+	
 	if (this.adjacency[v] != undefined) {
 		console.info("visited vertices:", v);
 	}else{
-		console.info("this.adjacency", this.adjacency);
-		console.info("here");
 		return false;
 	}
 
@@ -71,13 +69,16 @@ graph.prototype.getPaths = function(v0, v1, paths, currentPath) {
 		currentPath = [];
 	};
     
-	var newPath = currentPath;
+	var newPath = _.clone(currentPath);
 	
+	if (newPath.length > 20) {
+		return ;
+	};
+
 	newPath.push(v0);
 
-	// console.info("newPath", newPath);
 	if (this.adjacency[v0] === undefined) {
-		return [];
+		return ;
 	};
 
 	this.adjacency[v0].forEach(function(d) {
