@@ -120,5 +120,5 @@ console.info("--- same cost solutions --- ");
 obj.solutions.filter(function(v, k) {
 	return v.cost === solution.cost;
 }).map(function(v, k) {
-	console.info(solution);
+	console.info(v);
 });
